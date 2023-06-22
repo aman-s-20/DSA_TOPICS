@@ -70,7 +70,9 @@ void solve() {
     }
     vector<vector<int>> dp(n, vector<int> (1 << n, -1));
     cout << minCost(0, (1 << n) - 1, n, dp);
-
+    // initially we have all person available so the set bit is 1 for each person ..
+    // dp[jobNum][mask] respresent minCost to complete i= jobNum to N using mask worker,(i.e suppose 1101 workers are available so to compelete the job from
+    //  2 to 4 we have have available employee are 1,2 and 4.
 }
 
 int  main()
