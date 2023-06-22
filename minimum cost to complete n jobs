@@ -1,0 +1,95 @@
+/*
+Problem Statement
+
+Let there be N workers and N jobs. Any worker can be assigned to perform any job, incurring some cost that may vary depending on the work-job assignment. It is required to perform all jobs by assigning exactly one worker to each job and exactly one job to each agent in such a way that the total cost of the assignment is minimized.
+
+Input Format
+Number of workers and job: N
+Cost matrix C with dimension N*N where C(i,j) is the cost incurred on assigning ith Person to jth Job.
+
+Sample Input
+4
+
+[
+9 2 7 8
+6 4 3 7
+5 8 1 8
+7 6 9 4
+]
+
+Sample Output
+13
+
+Constraints
+N <= 20
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define  ull unsigned long long int
+#define ll long long
+#define mod 1000000007
+#define all(x) x.begin(),x.end()
+#define lb lower_bound
+#define ub upper_bound
+#define ff first
+#define ss second
+#define pb push_back
+#define Setbit(n)   __builtin_popcountll(n)
+#define ms(a,x) memset(a,x,sizeof(a))
+const ll INF = 1e15;
+const  ll  N = 200007;
+
+
+int cost[21][21];
+int minCost(int jobNum, int mask, int n, vector<vector<int>> &dp) {
+    if (jobNum == n) {
+        return 0;
+    }
+    if (dp[jobNum][mask] != -1)return dp[jobNum][mask];
+
+    int ans = INT_MAX;
+    for (int person = 0; person < n; person++) {
+        if (mask & (1 << person)) {
+            ans = min(ans, cost[person][jobNum] + minCost(jobNum + 1, mask ^ (1 << person), n, dp));
+        }
+    }
+    return dp[jobNum][mask] = ans;
+}
+
+void solve() {
+    ll n, m, i, j, k;
+    cin >> n;
+
+    // row - person, col - jobNum
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> cost[i][j];
+        }
+    }
+    vector<vector<int>> dp(n, vector<int> (1 << n, -1));
+    cout << minCost(0, (1 << n) - 1, n, dp);
+
+}
+
+int  main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    ll t;
+    t = 1;
+    // cin >> t;
+
+    while (t--)
+    {
+
+        solve();
+
+    }
+    return 0;
+
+}
+
